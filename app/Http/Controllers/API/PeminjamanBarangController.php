@@ -78,7 +78,14 @@ class PeminjamanBarangController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Peminjaman_barang::where('id', '=', $id)->get();
+
+            // return $data;
+            if ($data){
+                return ApiFormatter::createApi(200, 'Succes', $data);
+            }else{
+                return ApiFormatter::createApi(400, 'Failed');    
+            }
     }
 
     /**
@@ -101,7 +108,30 @@ class PeminjamanBarangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try{
+            
+            $peminjaman_barang = Peminjaman_barang::findOrFail($id);
+            // return $peminjaman_barang;
+
+            $peminjaman_barang->update([
+                'nama' => $request->nama,
+                'barang' => $request->barang,
+                'jabatan' => $request->jabatan,
+                'waktu_pinjam' => $request->waktu_pinjam,
+                'kategori_barang' => $request->kategori_barang
+            ]);
+
+            $data = Peminjaman_barang::where('id', '=', $peminjaman_barang->id)->get();
+
+            // return $data;
+            if ($data){
+                return ApiFormatter::createApi(200, 'Succes', $data);
+            }else{
+                return ApiFormatter::createApi(400, 'Failed');    
+            }
+        }catch (Exception $error) {
+            return ApiFormatter::createApi(400, 'Failed');
+        }
     }
 
     /**
@@ -112,6 +142,15 @@ class PeminjamanBarangController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $peminjaman_barang = Peminjaman_barang::findOrFail($id);
+
+        $data = $peminjaman_barang->delete();
+
+            // return $data;
+            if ($data){
+                return ApiFormatter::createApi(200, 'Succes Destroy data');
+            }else{
+                return ApiFormatter::createApi(400, 'Failed');    
+            }
     }
 }

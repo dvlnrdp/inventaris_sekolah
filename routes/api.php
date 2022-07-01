@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('peminjamanbarang', [PeminjamanBarangController::class, 'index']);
 Route::post('peminjamanbarang/store', [PeminjamanBarangController::class, 'store']);
+Route::get('peminjamanbarang/show/{id}', [PeminjamanBarangController::class, 'show']);
+Route::post('peminjamanbarang/update/{id}', [PeminjamanBarangController::class, 'update']);
+Route::get('peminjamanbarang/destroy/{id}', [PeminjamanBarangController::class, 'destroy']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
